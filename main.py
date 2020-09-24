@@ -1,14 +1,16 @@
 from pywinusb import hid
 from PIL import Image, ImageGrab
 import numpy as np
+from time import sleep
 
 def get_dominant_color() -> tuple:
-    img = ImageGrab.grab()
+    """https://stackoverflow.com/a/52879133/13030478"""
+    img = ImageGrab.grab().convert("RGB")
     w, h = img.size
-    pixels = img.getcolors(w * h)
-    sorted_pixels = sorted(pixels, key=lambda t: t[0])
-    dominant_color = sorted_pixels[-1][1]
-    print(dominant_color)
+    pixels = img.getcolors(w * h) # return list((count, (r, g, b)))
+    sorted_pixels = sorted(pixels, key=lambda t: t[0]) # ordena pelo count
+    dominant_color = sorted_pixels[-1][1] # maior count
+    #print(dominant_color)
     
     return dominant_color
 
@@ -32,5 +34,7 @@ while True:
     r, g, b = get_dominant_color()
     if last_color != (r, g, b):
         set_color(r, g, b)
-
+        last_color = (r, g, b)
+    
+    
     
