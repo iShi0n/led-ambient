@@ -10,23 +10,6 @@ def get_dominant_color() -> tuple:
     dominant_color = sorted_pixels[-1][1]
     print(dominant_color)
     
-    
-    # r = 0
-    # g = 0
-    # b = 0
-    
-    # print(1)
-    # for x in range(w):
-    #     for y in range(h):
-    #         pixel = pixels[x, y]
-    #         r += pixel[0]
-    #         g += pixel[1]
-    #         b += pixel[2]
-    # print(2)
-    # r = r // (w * h)
-    # g = g // (w * h)
-    # b = b // (w * h)
-    
     return dominant_color
 
 def set_color(r, g, b):
