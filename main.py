@@ -8,11 +8,23 @@ def get_dominant_color() -> tuple:
     img = ImageGrab.grab().convert("RGB")
     w, h = img.size
     pixels = img.getcolors(w * h) # return list((count, (r, g, b)))
-    sorted_pixels = sorted(pixels, key=lambda t: t[0]) # ordena pelo count
-    dominant_color = sorted_pixels[-1][1] # maior count
-    #print(dominant_color)
+    sorted_pixels = reversed(sorted(pixels, key=lambda t: t[0])) # do maior count para o menor
+    
+    for color in sorted_pixels:
+        if any(pixel > 15 for pixel in color[1]):
+            r, g, b = color[1] # maior count
+            
+            r = int(min(255, r*2))
+            g = int(min(255, g*2))
+            b = int(min(255, b*2))
+
+            dominant_color = r, g, b
+            break
+    else:
+        dominant_color = (0, 0, 0)
     
     return dominant_color
+
 
 def set_color(r, g, b):
     devices = hid.HidDeviceFilter(vendor_id=0x0c45, product_id=0x5004).get_devices()
@@ -28,6 +40,7 @@ def set_color(r, g, b):
         out.send(buffer)
     device.close()
 
+
 last_color = (-1, -1, -1)
 
 while True:
@@ -35,6 +48,3 @@ while True:
     if last_color != (r, g, b):
         set_color(r, g, b)
         last_color = (r, g, b)
-    
-    
-    
