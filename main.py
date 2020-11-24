@@ -48,3 +48,5 @@ while True:
     if last_color != (r, g, b):
         set_color(r, g, b)
         last_color = (r, g, b)
+    
+    sleep(0.05)
